@@ -28,9 +28,5 @@ python -m http.server 8000
 - Validação W3C executada e pequenas correções aplicadas (semântica e HTML5).
 
 ## Autor
-- Conteúdo de exemplo baseado em material didático.
+- Conteúdo de exemplo baseado em material didático do Professor Guanabara.
 
----
-
-Se quiser, eu crio o commit com a mensagem que você escolher — diga a mensagem quando quiser.
-Esse é um projeto antigo.
