@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Galeria — Mascote Android</title>
+    <link rel="stylesheet" href="estilo/style.css">
+    <style>
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill,minmax(180px,1fr));
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .thumb {
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            cursor: pointer;
+        }
+        .thumb img { display:block; width:100%; height:auto; object-fit:cover; }
+        .caption { padding:8px; font-size:0.95em; color:var(--cor4); text-align:center; }
+
+        /* Modal */
+        .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); align-items:center; justify-content:center; z-index:1000; }
+        .modal.open { display:flex; }
+        .modal-content { max-width:90%; max-height:90%; }
+        .modal-content img { width:100%; height:auto; border-radius:8px; display:block; }
+        .modal-close { position:absolute; top:18px; right:18px; background:#fff; border-radius:50%; width:36px; height:36px; display:flex; align-items:center; justify-content:center; cursor:pointer; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Galeria do Mascote Android</h1>
+    </header>
+    <main>
+        <p>Clique em uma imagem para ampliá-la.</p>
+        <section class="gallery" id="gallery">
+            <figure class="thumb" data-src="imagens/bugdroid.png" data-caption="Bugdroid">
+                <img src="imagens/bugdroid.png" alt="Bugdroid" loading="lazy" srcset="imagens/bugdroid.png 800w" sizes="(max-width:600px) 100vw, 33vw">
+                <figcaption class="caption">Bugdroid</figcaption>
+            </figure>
+
+            <figure class="thumb" data-src="imagens/dan-droids.png" data-caption="Dan Droids">
+                <img src="imagens/dan-droids-pq.png" alt="Dan Droids (thumbnail)" loading="lazy" srcset="imagens/dan-droids-pq.png 400w, imagens/dan-droids.png 1200w" sizes="(max-width:600px) 100vw, 33vw">
+                <figcaption class="caption">Dan Droids</figcaption>
+            </figure>
+
+            <figure class="thumb" data-src="imagens/irina-blok.jpg" data-caption="Irina Blok">
+                <img src="imagens/irina-blok-pq.jpg" alt="Irina Blok (thumbnail)" loading="lazy" srcset="imagens/irina-blok-pq.jpg 400w, imagens/irina-blok.jpg 1200w" sizes="(max-width:600px) 100vw, 33vw">
+                <figcaption class="caption">Irina Blok</figcaption>
+            </figure>
+        </section>
+    </main>
+
+    <div class="modal" id="modal" role="dialog" aria-modal="true">
+        <div class="modal-close" id="modalClose" aria-label="Fechar">✕</div>
+        <div class="modal-content" id="modalContent">
+            <img src="" alt="">
+        </div>
+    </div>
+
+    <script>
+        const gallery = document.getElementById('gallery');
+        const modal = document.getElementById('modal');
+        const modalImg = modal.querySelector('img');
+        const modalClose = document.getElementById('modalClose');
+
+        gallery.addEventListener('click', e => {
+            const fig = e.target.closest('.thumb');
+            if (!fig) return;
+            const src = fig.dataset.src || fig.querySelector('img').src;
+            const caption = fig.dataset.caption || '';
+            modalImg.src = src;
+            modalImg.alt = caption;
+            modal.classList.add('open');
+        });
+
+        modalClose.addEventListener('click', () => {
+            modal.classList.remove('open');
+            modalImg.src = '';
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) { modal.classList.remove('open'); modalImg.src=''; }
+        });
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') modal.classList.remove('open');
+        });
+    </script>
+</body>
+</html>
